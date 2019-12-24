@@ -23,8 +23,8 @@ double fRand(double fMin, double fMax)
     return fMin + f * (fMax - fMin);
 }
 
-// Функция, которая генерирует массив случайных окружностей заданной длины length
-TCircle *generateRandomCircles(double minX, double maxX, double minY, double maxY, double minR, double maxR, size_t length) {
+// Генерирует массив случайных окружностей заданной длины length
+TCircle * generateRandomCircles(double minX, double maxX, double minY, double maxY, double minR, double maxR, size_t length) {
     TCircle *circlesArr = new TCircle[length];
 
     for (size_t i = 0; i < length; ++i) {
@@ -36,7 +36,10 @@ TCircle *generateRandomCircles(double minX, double maxX, double minY, double max
     return circlesArr;
 }
 
-PTCircle *createPointersArray(TCircle *circlesArr, size_t length) {
+// Создаёт массив указателей на элементы исходного массива
+// Первоначальный порядок элементов соответствует порядку элементов
+// исходного массива
+PTCircle * createPointersArray(TCircle *circlesArr, size_t length) {
     PTCircle *pCirclesArr;
 
     // Создать массив указателей на структуры и заполнить его в порядке,
@@ -51,14 +54,14 @@ PTCircle *createPointersArray(TCircle *circlesArr, size_t length) {
     return pCirclesArr;
 }
 
-// Функция, выводящая информацию о хранящихся в исходном массиве окружностях
+// Выводит информацию о хранящихся в исходном массиве окружностях
 void listCircles(TCircle *circlesArr, size_t length) {
     for (size_t i = 0; i < length; ++i) {
         cout << "X=" << circlesArr[i].x << "; Y=" << circlesArr[i].y << "; R=" << circlesArr[i].r << endl;
     }
 }
 
-// Функция, выводящая информацию об окружностях на основе массива,
+// Выводит информацию об окружностях на основе массива,
 // хранящего ссылки на исходный массив
 void listCircles(PTCircle *pCirclesArr, size_t length) {
     for (size_t i = 0; i < length; ++i) {
@@ -66,8 +69,12 @@ void listCircles(PTCircle *pCirclesArr, size_t length) {
     }
 }
 
+// Сортирует элементы массива, содержащего указатели на структуры окружностей,
+// в заданном параметрами field и desc порядке
 void sortCircles(PTCircle *pCirclesArr, size_t length, double TCircle:: *field, bool desc) {
+    // Хранит значение указателя в момент обмена значениями
     PTCircle tmp;
+
     if (desc) {
         for (size_t i = 0; i < length - 1; i++) {
             for (size_t j = i + 1; j < length; j++) {
@@ -91,6 +98,8 @@ void sortCircles(PTCircle *pCirclesArr, size_t length, double TCircle:: *field, 
     }
 }
 
+// Записывает введённые пользователем значения координат и радиуса
+// в соответствующие поля структуры
 void inputCircle(TCircle& circle) {
     cout << "Введите координату X:" << endl;
     cin >> circle.x;
@@ -100,7 +109,8 @@ void inputCircle(TCircle& circle) {
     cin >> circle.r;
 }
 
-TCircle *inputCirclesArray(size_t length) {
+// Предназначена для ввода пользователем массива окружностей
+TCircle * inputCirclesArray(size_t length) {
     TCircle *circlesArr = new TCircle[length];
 
     for (size_t i = 0; i < length; ++i) {
@@ -111,6 +121,7 @@ TCircle *inputCirclesArray(size_t length) {
     return circlesArr;
 }
 
+// В соответствии с вводом пользоавтеля сортирует массив окружностей
 void userSortCircles(PTCircle *pCirclesArr, size_t length) {
 
     char userInput;
@@ -168,6 +179,7 @@ void userSortCircles(PTCircle *pCirclesArr, size_t length) {
     } while (userInput != 'x' && userInput != 'y' && userInput != 'r');
 }
 
+// Основной цикл взаимодействия с пользователем
 void mainCycle() {
     // Указатель на массив структур, описывающих окружности
     TCircle *circlesArr, *oldCirclesArr;
@@ -284,6 +296,7 @@ void mainCycle() {
     delete[] circlesArr;
 }
 
+// Примеры работы с некоторыми функциями
 int example() {
     // Указатель на массив структур
     TCircle *arr;
