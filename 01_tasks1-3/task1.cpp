@@ -48,5 +48,6 @@ int main()
         cout << "x ne prinadlezhit ni ab, ni cd" << endl;
     }
 
-    _getch();
+    getch();
+    # _getch();
 }
