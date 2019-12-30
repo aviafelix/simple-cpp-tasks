@@ -43,7 +43,7 @@ char *FirstOperand = new char[32];
 char *SecondOperand = new char[32];
 char *MemoOperand = new char[32];
 
-int Sign;
+int Operation;
 
 #define MW_WIDTH 180
 #define MW_HEIGHT 280
@@ -124,7 +124,7 @@ LRESULT CALLBACK WndProc(HWND hwnd,
             }
 
             case Plus: {
-                Sign = Plus;
+                Operation = Plus;
                 for (int i = 0; i <= strlen(FirstOperand); i++)
                     SecondOperand[i] = FirstOperand[i];
                 FirstOperand[0] = 0;
@@ -133,7 +133,7 @@ LRESULT CALLBACK WndProc(HWND hwnd,
             }
 
             case Minus: {
-                Sign = Minus;
+                Operation = Minus;
                 for (int i = 0; i <= strlen(FirstOperand); i++)
                     SecondOperand[i] = FirstOperand[i];
                 FirstOperand[0] = 0;
@@ -142,7 +142,7 @@ LRESULT CALLBACK WndProc(HWND hwnd,
             }
 
             case Multiply: {
-                Sign = Multiply;
+                Operation = Multiply;
                 for (int i = 0; i <= strlen(FirstOperand); i++)
                     SecondOperand[i] = FirstOperand[i];
                 FirstOperand[0] = 0;
@@ -151,7 +151,7 @@ LRESULT CALLBACK WndProc(HWND hwnd,
             }
 
             case Divide: {
-                Sign = Divide;
+                Operation = Divide;
                 for (int i = 0; i <= strlen(FirstOperand); i++)
                     SecondOperand[i] = FirstOperand[i];
                 FirstOperand[0] = 0;
@@ -162,7 +162,7 @@ LRESULT CALLBACK WndProc(HWND hwnd,
             case Equal: {
                 double _FirstOperand = atof(FirstOperand);
                 double _SecondOperand = atof(SecondOperand);
-                if (_FirstOperand == 0 && Sign == Divide) {
+                if (_FirstOperand == 0 && Operation == Divide) {
                     MessageBox(NULL, "Деление на ноль", "ERROR", MB_ICONERROR);
                     FirstOperand[0] = 0;
                     SecondOperand[0] = 0;
@@ -171,22 +171,22 @@ LRESULT CALLBACK WndProc(HWND hwnd,
                 FirstOperand[0] = 0;
                 SecondOperand[0] = 0;
 
-                if (Sign == Plus) {
+                if (Operation == Plus) {
                     double FirstOperandDouble = _SecondOperand + _FirstOperand;
                     sprintf(FirstOperand, "%lf", FirstOperandDouble);
                 }
 
-                if (Sign == Minus) {
+                if (Operation == Minus) {
                     double FirstOperandDouble = _SecondOperand - _FirstOperand;
                     sprintf(FirstOperand, "%lf", FirstOperandDouble);
                 }
 
-                if (Sign == Multiply) {
+                if (Operation == Multiply) {
                     double FirstOperandDouble = _SecondOperand * _FirstOperand;
                     sprintf(FirstOperand, "%lf", FirstOperandDouble);
                 }
 
-                if (Sign == Divide) {
+                if (Operation == Divide) {
                     double FirstOperandDouble = _SecondOperand / _FirstOperand;
                     sprintf(FirstOperand, "%lf", FirstOperandDouble);
                 }
