@@ -6,45 +6,6 @@
 #include <string.h>
 #include <stdio.h>
 
-HWND Edit;
-static HWND button_1;
-static HWND button_2;
-static HWND button_3;
-static HWND button_4;
-static HWND button_5;
-static HWND button_6;
-static HWND button_7;
-static HWND button_8;
-static HWND button_9;
-static HWND button_Zero;
-
-static HWND button_Point;
-static HWND button_NEG;
-
-static HWND button_Plus;
-static HWND button_Minus;
-static HWND button_Multiply;
-static HWND button_Divide;
-static HWND button_Equal;
-
-static HWND button_BKSP;
-static HWND button_CLEAR;
-static HWND button_CLEAR_EDIT;
-
-static HWND button_MEMO_SAVE;
-static HWND button_MEMO_RESTORE;
-static HWND button_MEMO_CLEAR;
-
-static HWND button_About;
-
-const char* buttonNumbers[10] = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
-
-char *FirstOperand = new char[32];
-char *SecondOperand = new char[32];
-char *MemoOperand = new char[32];
-
-int Operation;
-
 #define MW_WIDTH 180
 #define MW_HEIGHT 280
 
@@ -83,6 +44,78 @@ int Operation;
 #define MemoRestore 201
 #define MemoSave 222
 #define About 333
+
+#define buttonWStyle (WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON)
+
+HWND Edit;
+
+const char *buttonNumbers[10] = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+
+typedef struct {
+    LPCTSTR lpWindowName;
+    int posX, posY;
+    HMENU hmenu;
+} TButtonDescription;
+
+
+const static TButtonDescription buttonDescriptions[] = {
+    { "1",   B_POS_X_0, B_POS_Y_4, HMENU(1)           },
+    { "2",   B_POS_X_1, B_POS_Y_4, HMENU(2)           },
+    { "3",   B_POS_X_2, B_POS_Y_4, HMENU(3)           },
+    { "4",   B_POS_X_0, B_POS_Y_3, HMENU(4)           },
+    { "5",   B_POS_X_1, B_POS_Y_3, HMENU(5)           },
+    { "6",   B_POS_X_2, B_POS_Y_3, HMENU(6)           },
+    { "7",   B_POS_X_0, B_POS_Y_2, HMENU(7)           },
+    { "8",   B_POS_X_1, B_POS_Y_2, HMENU(8)           },
+    { "9",   B_POS_X_2, B_POS_Y_2, HMENU(9)           },
+    { "0",   B_POS_X_1, B_POS_Y_5, HMENU(Zero)        },
+    { "+",   B_POS_X_3, B_POS_Y_4, HMENU(Plus)        },
+    { "-",   B_POS_X_3, B_POS_Y_3, HMENU(Minus)       },
+    { "*",   B_POS_X_3, B_POS_Y_2, HMENU(Multiply)    },
+    { "/",   B_POS_X_3, B_POS_Y_1, HMENU(Divide)      },
+    { "=",   B_POS_X_3, B_POS_Y_5, HMENU(Equal)       },
+    { ".",   B_POS_X_2, B_POS_Y_5, HMENU(Point)       },
+    { "<-",  B_POS_X_0, B_POS_Y_1, HMENU(BackSpace)   },
+    { "CE",  B_POS_X_1, B_POS_Y_1, HMENU(ClearLast)   },
+    { "C",   B_POS_X_2, B_POS_Y_1, HMENU(ClearAll)    },
+    { "MC",  B_POS_X_0, B_POS_Y_0, HMENU(MemoClear)   },
+    { "MR",  B_POS_X_1, B_POS_Y_0, HMENU(MemoRestore) },
+    { "MS",  B_POS_X_2, B_POS_Y_0, HMENU(MemoSave)    },
+    { "-/+", B_POS_X_0, B_POS_Y_5, HMENU(Negative)    }
+};
+
+HWND buttons[sizeof(buttonDescriptions)] = { };
+
+static HWND button_About;
+
+char FirstOperand[32] = { };
+char SecondOperand[32] = { };
+char MemoOperand[32] = { };
+
+int Operation;
+
+void createButtons(HWND& hwnd, HINSTANCE& hInstance, TButtonDescription const *buttonDescriptions, HWND *buttons, size_t length)
+{
+    TButtonDescription const *btDescr = buttonDescriptions, *endBtDescr = buttonDescriptions + length;
+    HWND *pButton = buttons;
+
+    while (btDescr < endBtDescr) {
+        *(pButton++) = CreateWindow(
+            "button",
+            btDescr -> lpWindowName,
+            buttonWStyle,
+            btDescr -> posX,
+            btDescr -> posY,
+            B_WIDTH,
+            B_HEIGHT,
+            hwnd,
+            btDescr -> hmenu,
+            hInstance,
+            NULL
+        );
+        btDescr++;
+    }
+}
 
 LRESULT CALLBACK WndProc(HWND hwnd,
     UINT Message,
@@ -243,8 +276,6 @@ LRESULT CALLBACK WndProc(HWND hwnd,
     }
 
     case WM_DESTROY: {
-        delete[] FirstOperand;
-        delete[] SecondOperand;
         PostQuitMessage(0);
         break;
     }
@@ -297,57 +328,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
         EDIT_HEIGHT, /* height */
         hwnd, NULL, hInstance, NULL);
 
-    button_1 = CreateWindow("button", "1", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-        B_POS_X_0, B_POS_Y_4, B_WIDTH, B_HEIGHT, hwnd, HMENU(1), hInstance, NULL);
-    button_2 = CreateWindow("button", "2", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-        B_POS_X_1, B_POS_Y_4, B_WIDTH, B_HEIGHT, hwnd, HMENU(2), hInstance, NULL);
-    button_3 = CreateWindow("button", "3", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-        B_POS_X_2, B_POS_Y_4, B_WIDTH, B_HEIGHT, hwnd, HMENU(3), hInstance, NULL);
-    button_4 = CreateWindow("button", "4", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-        B_POS_X_0, B_POS_Y_3, B_WIDTH, B_HEIGHT, hwnd, HMENU(4), hInstance, NULL);
-    button_5 = CreateWindow("button", "5", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-        B_POS_X_1, B_POS_Y_3, B_WIDTH, B_HEIGHT, hwnd, HMENU(5), hInstance, NULL);
-    button_6 = CreateWindow("button", "6", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-        B_POS_X_2, B_POS_Y_3, B_WIDTH, B_HEIGHT, hwnd, HMENU(6), hInstance, NULL);
-    button_7 = CreateWindow("button", "7", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-        B_POS_X_0, B_POS_Y_2, B_WIDTH, B_HEIGHT, hwnd, HMENU(7), hInstance, NULL);
-    button_8 = CreateWindow("button", "8", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-        B_POS_X_1, B_POS_Y_2, B_WIDTH, B_HEIGHT, hwnd, HMENU(8), hInstance, NULL);
-    button_9 = CreateWindow("button", "9", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-        B_POS_X_2, B_POS_Y_2, B_WIDTH, B_HEIGHT, hwnd, HMENU(9), hInstance, NULL);
-    button_Zero = CreateWindow("button", "0", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-        B_POS_X_1, B_POS_Y_5, B_WIDTH, B_HEIGHT, hwnd, HMENU(Zero), hInstance, NULL);
-
-    button_Plus = CreateWindow("button", "+", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-        B_POS_X_3, B_POS_Y_4, B_WIDTH, B_HEIGHT, hwnd, HMENU(Plus), hInstance, NULL);
-    button_Minus = CreateWindow("button", "-", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-        B_POS_X_3, B_POS_Y_3, B_WIDTH, B_HEIGHT, hwnd, HMENU(Minus), hInstance, NULL);
-    button_Multiply = CreateWindow("button", "*", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-        B_POS_X_3, B_POS_Y_2, B_WIDTH, B_HEIGHT, hwnd, HMENU(Multiply), hInstance, NULL);
-    button_Divide = CreateWindow("button", "/", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-        B_POS_X_3, B_POS_Y_1, B_WIDTH, B_HEIGHT, hwnd, HMENU(Divide), hInstance, NULL);
-    button_Equal = CreateWindow("button", "=", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-        B_POS_X_3, B_POS_Y_5, B_WIDTH, B_HEIGHT, hwnd, HMENU(Equal), hInstance, NULL);
-
-    button_Point = CreateWindow("button", ".", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-        B_POS_X_2, B_POS_Y_5, B_WIDTH, B_HEIGHT, hwnd, HMENU(Point), hInstance, NULL);
-
-    button_BKSP = CreateWindow("button", "<-", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-        B_POS_X_0, B_POS_Y_1, B_WIDTH, B_HEIGHT, hwnd, HMENU(BackSpace), hInstance, NULL);
-    button_CLEAR_EDIT = CreateWindow("button", "CE", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-        B_POS_X_1, B_POS_Y_1, B_WIDTH, B_HEIGHT, hwnd, HMENU(ClearLast), hInstance, NULL);
-    button_CLEAR = CreateWindow("button", "C", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-        B_POS_X_2, B_POS_Y_1, B_WIDTH, B_HEIGHT, hwnd, HMENU(ClearAll), hInstance, NULL);
-
-    button_MEMO_CLEAR = CreateWindow("button", "MC", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-        B_POS_X_0, B_POS_Y_0, B_WIDTH, B_HEIGHT, hwnd, HMENU(MemoClear), hInstance, NULL);
-    button_MEMO_RESTORE = CreateWindow("button", "MR", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-        B_POS_X_1, B_POS_Y_0, B_WIDTH, B_HEIGHT, hwnd, HMENU(MemoRestore), hInstance, NULL);
-    button_MEMO_SAVE = CreateWindow("button", "MS", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-        B_POS_X_2, B_POS_Y_0, B_WIDTH, B_HEIGHT, hwnd, HMENU(MemoSave), hInstance, NULL);
-
-    button_NEG = CreateWindow("button", "-/+", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-        B_POS_X_0, B_POS_Y_5, B_WIDTH, B_HEIGHT, hwnd, HMENU(Negative), hInstance, NULL);
+    createButtons(hwnd, hInstance, buttonDescriptions, buttons, sizeof(buttonDescriptions) / sizeof(*buttonDescriptions));
 
     if (hwnd == NULL) {
         MessageBox(NULL, "Window Creation Failed!", "Error!",
@@ -359,5 +340,6 @@ int WINAPI WinMain(HINSTANCE hInstance,
         TranslateMessage(&Msg); /* Translate key codes to chars if present */
         DispatchMessage(&Msg); /* Send it to WndProc */
     }
+
     return Msg.wParam;
 }
