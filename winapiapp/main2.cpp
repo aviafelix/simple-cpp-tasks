@@ -47,16 +47,11 @@
 
 #define buttonWStyle (WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON)
 
-HWND Edit;
-
-const char *buttonNumbers[10] = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
-
 typedef struct {
     LPCTSTR lpWindowName;
     int posX, posY;
     HMENU hmenu;
 } TButtonDescription;
-
 
 const static TButtonDescription buttonDescriptions[] = {
     { "1",   B_POS_X_0, B_POS_Y_4, HMENU(1)           },
@@ -84,9 +79,11 @@ const static TButtonDescription buttonDescriptions[] = {
     { "-/+", B_POS_X_0, B_POS_Y_5, HMENU(Negative)    }
 };
 
+HWND Edit;
 HWND buttons[sizeof(buttonDescriptions)] = { };
-
 static HWND button_About;
+
+const char *buttonNumbers[10] = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
 char FirstOperand[32] = { };
 char SecondOperand[32] = { };
@@ -117,6 +114,152 @@ void createButtons(HWND& hwnd, HINSTANCE& hInstance, TButtonDescription const *b
     }
 }
 
+void processOperation(WPARAM wParam)
+{
+    WORD loWordWParam = LOWORD(wParam);
+
+    if ((loWordWParam >= 0) && (loWordWParam <= 9)) {
+        strcat(FirstOperand, buttonNumbers[loWordWParam]);
+        SetWindowText(Edit, FirstOperand);
+    } else switch (loWordWParam) {
+
+        case Point: {
+            if (strstr(FirstOperand, ".") == 0)
+                strcat(FirstOperand, ".");
+            SetWindowText(Edit, FirstOperand);
+            break;
+        }
+
+        case ClearAll: {
+            FirstOperand[0] = 0;
+            SecondOperand[0] = 0;
+            SetWindowText(Edit, FirstOperand);
+            break;
+        }
+
+        case ClearLast: {
+            FirstOperand[0] = 0;
+            SetWindowText(Edit, FirstOperand);
+            break;
+        }
+
+        case Plus: {
+            Operation = Plus;
+            for (int i = 0; i <= strlen(FirstOperand); i++)
+                SecondOperand[i] = FirstOperand[i];
+            FirstOperand[0] = 0;
+            SetWindowText(Edit, "");
+            break;
+        }
+
+        case Minus: {
+            Operation = Minus;
+            for (int i = 0; i <= strlen(FirstOperand); i++)
+                SecondOperand[i] = FirstOperand[i];
+            FirstOperand[0] = 0;
+            SetWindowText(Edit, "");
+            break;
+        }
+
+        case Multiply: {
+            Operation = Multiply;
+            for (int i = 0; i <= strlen(FirstOperand); i++)
+                SecondOperand[i] = FirstOperand[i];
+            FirstOperand[0] = 0;
+            SetWindowText(Edit, "");
+            break;
+        }
+
+        case Divide: {
+            Operation = Divide;
+            for (int i = 0; i <= strlen(FirstOperand); i++)
+                SecondOperand[i] = FirstOperand[i];
+            FirstOperand[0] = 0;
+            SetWindowText(Edit, "");
+            break;
+        }
+
+        case Equal: {
+            double _FirstOperand = atof(FirstOperand);
+            double _SecondOperand = atof(SecondOperand);
+            if (_FirstOperand == 0 && Operation == Divide) {
+                MessageBox(NULL, "Деление на ноль", "ERROR", MB_ICONERROR);
+                FirstOperand[0] = 0;
+                SecondOperand[0] = 0;
+                break;
+            }
+            FirstOperand[0] = 0;
+            SecondOperand[0] = 0;
+
+            if (Operation == Plus) {
+                double FirstOperandDouble = _SecondOperand + _FirstOperand;
+                sprintf(FirstOperand, "%lf", FirstOperandDouble);
+            }
+
+            if (Operation == Minus) {
+                double FirstOperandDouble = _SecondOperand - _FirstOperand;
+                sprintf(FirstOperand, "%lf", FirstOperandDouble);
+            }
+
+            if (Operation == Multiply) {
+                double FirstOperandDouble = _SecondOperand * _FirstOperand;
+                sprintf(FirstOperand, "%lf", FirstOperandDouble);
+            }
+
+            if (Operation == Divide) {
+                double FirstOperandDouble = _SecondOperand / _FirstOperand;
+                sprintf(FirstOperand, "%lf", FirstOperandDouble);
+            }
+
+            SetWindowText(Edit, FirstOperand);
+            break;
+        }
+
+        case Negative: {
+            double _FirstOperand = atof(FirstOperand);
+            double _SecondOperand = 0;
+            double FirstOperandDouble = _SecondOperand - _FirstOperand;
+            sprintf(FirstOperand, "%lf", FirstOperandDouble);
+            SetWindowText(Edit, FirstOperand);
+            break;
+        }
+
+        case BackSpace: {
+            if (strlen(FirstOperand) > 0) {
+                FirstOperand[strlen(FirstOperand)-1] = 0;
+            }
+            SetWindowText(Edit, FirstOperand);
+            break;
+        }
+
+        case MemoClear: {
+            MemoOperand[0] = 0;
+            break;
+        }
+
+        case MemoRestore: {
+            for (int i = 0; i <= strlen(MemoOperand); i++) {
+                FirstOperand[i] = MemoOperand[i];
+            }
+            SetWindowText(Edit, FirstOperand);
+            break;
+        }
+
+        case MemoSave: {
+            for (int i = 0; i <= strlen(MemoOperand); i++) {
+                MemoOperand[i] = FirstOperand[i];
+            }
+            break;
+        }
+
+        case About: {
+            MessageBox(NULL, "Calculator 1.0 \nTest App Co. Ltd, 2019", "About",
+                MB_OK);
+            break;
+        }
+    }
+}
+
 LRESULT CALLBACK WndProc(HWND hwnd,
     UINT Message,
     WPARAM wParam,
@@ -126,152 +269,11 @@ LRESULT CALLBACK WndProc(HWND hwnd,
     case (WM_CREATE): {
         FirstOperand[0] = 0;
         SecondOperand[0] = 0;
-    } break;
+        break;
+    }
 
     case WM_COMMAND: {
-        WORD loWordWParam = LOWORD(wParam);
-
-        if ((loWordWParam >= 0) && (loWordWParam <= 9)) {
-            strcat(FirstOperand, buttonNumbers[loWordWParam]);
-            SetWindowText(Edit, FirstOperand);
-        } else switch (loWordWParam) {
-
-            case Point: {
-                if (strstr(FirstOperand, ".") == 0)
-                    strcat(FirstOperand, ".");
-                SetWindowText(Edit, FirstOperand);
-                break;
-            }
-
-            case ClearAll: {
-                FirstOperand[0] = 0;
-                SecondOperand[0] = 0;
-                SetWindowText(Edit, FirstOperand);
-                break;
-            }
-
-            case ClearLast: {
-                FirstOperand[0] = 0;
-                SetWindowText(Edit, FirstOperand);
-                break;
-            }
-
-            case Plus: {
-                Operation = Plus;
-                for (int i = 0; i <= strlen(FirstOperand); i++)
-                    SecondOperand[i] = FirstOperand[i];
-                FirstOperand[0] = 0;
-                SetWindowText(Edit, "");
-                break;
-            }
-
-            case Minus: {
-                Operation = Minus;
-                for (int i = 0; i <= strlen(FirstOperand); i++)
-                    SecondOperand[i] = FirstOperand[i];
-                FirstOperand[0] = 0;
-                SetWindowText(Edit, "");
-                break;
-            }
-
-            case Multiply: {
-                Operation = Multiply;
-                for (int i = 0; i <= strlen(FirstOperand); i++)
-                    SecondOperand[i] = FirstOperand[i];
-                FirstOperand[0] = 0;
-                SetWindowText(Edit, "");
-                break;
-            }
-
-            case Divide: {
-                Operation = Divide;
-                for (int i = 0; i <= strlen(FirstOperand); i++)
-                    SecondOperand[i] = FirstOperand[i];
-                FirstOperand[0] = 0;
-                SetWindowText(Edit, "");
-                break;
-            }
-
-            case Equal: {
-                double _FirstOperand = atof(FirstOperand);
-                double _SecondOperand = atof(SecondOperand);
-                if (_FirstOperand == 0 && Operation == Divide) {
-                    MessageBox(NULL, "Деление на ноль", "ERROR", MB_ICONERROR);
-                    FirstOperand[0] = 0;
-                    SecondOperand[0] = 0;
-                    break;
-                }
-                FirstOperand[0] = 0;
-                SecondOperand[0] = 0;
-
-                if (Operation == Plus) {
-                    double FirstOperandDouble = _SecondOperand + _FirstOperand;
-                    sprintf(FirstOperand, "%lf", FirstOperandDouble);
-                }
-
-                if (Operation == Minus) {
-                    double FirstOperandDouble = _SecondOperand - _FirstOperand;
-                    sprintf(FirstOperand, "%lf", FirstOperandDouble);
-                }
-
-                if (Operation == Multiply) {
-                    double FirstOperandDouble = _SecondOperand * _FirstOperand;
-                    sprintf(FirstOperand, "%lf", FirstOperandDouble);
-                }
-
-                if (Operation == Divide) {
-                    double FirstOperandDouble = _SecondOperand / _FirstOperand;
-                    sprintf(FirstOperand, "%lf", FirstOperandDouble);
-                }
-
-                SetWindowText(Edit, FirstOperand);
-                break;
-            }
-
-            case Negative: {
-                double _FirstOperand = atof(FirstOperand);
-                double _SecondOperand = 0;
-                double FirstOperandDouble = _SecondOperand - _FirstOperand;
-                sprintf(FirstOperand, "%lf", FirstOperandDouble);
-                SetWindowText(Edit, FirstOperand);
-                break;
-            }
-
-            case BackSpace: {
-                if (strlen(FirstOperand) > 0) {
-                    FirstOperand[strlen(FirstOperand)-1] = 0;
-                }
-                SetWindowText(Edit, FirstOperand);
-                break;
-            }
-
-            case MemoClear: {
-                MemoOperand[0] = 0;
-                break;
-            }
-
-            case MemoRestore: {
-                for (int i = 0; i <= strlen(MemoOperand); i++) {
-                    FirstOperand[i] = MemoOperand[i];
-                }
-                SetWindowText(Edit, FirstOperand);
-                break;
-            }
-
-            case MemoSave: {
-                for (int i = 0; i <= strlen(MemoOperand); i++) {
-                    MemoOperand[i] = FirstOperand[i];
-                }
-                break;
-            }
-
-            case About: {
-                MessageBox(NULL, "Calculator 1.0 \nTest App Co. Ltd, 2019", "About",
-                    MB_OK);
-                break;
-            }
-        }
-
+        processOperation(wParam);
         break;
     }
 
@@ -283,6 +285,7 @@ LRESULT CALLBACK WndProc(HWND hwnd,
     default:
         return DefWindowProc(hwnd, Message, wParam, lParam);
     }
+
     return 0;
 }
 
