@@ -7,6 +7,12 @@
 // https://habr.com/ru/post/352096/
 // https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getmessagea
 // https://github.com/MicrosoftDocs/cpp-docs/blob/master/docs/build/reference/compiler-options-listed-alphabetically.md
+// https://docs.microsoft.com/en-us/windows/win32/learnwin32/your-first-windows-program
+// https://docs.microsoft.com/en-us/windows/win32/menurc/using-cursors
+// https://rsdn.org/article/baseserv/api32.xml
+// http://cppstudio.com/post/9384/
+// https://caiorss.github.io/C-Cpp-Notes/WindowsAPI-cpp.html
+// https://www.codementor.io/@malortie/c-cpp-tutorial-build-win32-api-app-part-1-du107u9je
 
 #ifndef UNICODE
 #define UNICODE
