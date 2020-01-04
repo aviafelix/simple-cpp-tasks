@@ -53,37 +53,43 @@ typedef struct {
     HMENU hmenu;
 } TButtonDescription;
 
+const static char *btNumbers[10] = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+
 const static TButtonDescription buttonDescriptions[] = {
-    { "1",   B_POS_X_0, B_POS_Y_4, HMENU(1)           },
-    { "2",   B_POS_X_1, B_POS_Y_4, HMENU(2)           },
-    { "3",   B_POS_X_2, B_POS_Y_4, HMENU(3)           },
-    { "4",   B_POS_X_0, B_POS_Y_3, HMENU(4)           },
-    { "5",   B_POS_X_1, B_POS_Y_3, HMENU(5)           },
-    { "6",   B_POS_X_2, B_POS_Y_3, HMENU(6)           },
-    { "7",   B_POS_X_0, B_POS_Y_2, HMENU(7)           },
-    { "8",   B_POS_X_1, B_POS_Y_2, HMENU(8)           },
-    { "9",   B_POS_X_2, B_POS_Y_2, HMENU(9)           },
-    { "0",   B_POS_X_1, B_POS_Y_5, HMENU(Zero)        },
-    { "+",   B_POS_X_3, B_POS_Y_4, HMENU(Plus)        },
-    { "-",   B_POS_X_3, B_POS_Y_3, HMENU(Minus)       },
-    { "*",   B_POS_X_3, B_POS_Y_2, HMENU(Multiply)    },
-    { "/",   B_POS_X_3, B_POS_Y_1, HMENU(Divide)      },
-    { "=",   B_POS_X_3, B_POS_Y_5, HMENU(Equal)       },
-    { ".",   B_POS_X_2, B_POS_Y_5, HMENU(Point)       },
-    { "<-",  B_POS_X_0, B_POS_Y_1, HMENU(BackSpace)   },
-    { "CE",  B_POS_X_1, B_POS_Y_1, HMENU(ClearLast)   },
-    { "C",   B_POS_X_2, B_POS_Y_1, HMENU(ClearAll)    },
-    { "MC",  B_POS_X_0, B_POS_Y_0, HMENU(MemoClear)   },
-    { "MR",  B_POS_X_1, B_POS_Y_0, HMENU(MemoRestore) },
-    { "MS",  B_POS_X_2, B_POS_Y_0, HMENU(MemoSave)    },
-    { "-/+", B_POS_X_0, B_POS_Y_5, HMENU(Negative)    }
+    {    "-/+",     B_POS_X_0, B_POS_Y_5, HMENU(Negative)    },
+    { btNumbers[0], B_POS_X_1, B_POS_Y_5, HMENU(Zero)        },
+    {     ".",      B_POS_X_2, B_POS_Y_5, HMENU(Point)       },
+
+    { btNumbers[1], B_POS_X_0, B_POS_Y_4, HMENU(1)           },
+    { btNumbers[2], B_POS_X_1, B_POS_Y_4, HMENU(2)           },
+    { btNumbers[3], B_POS_X_2, B_POS_Y_4, HMENU(3)           },
+
+    { btNumbers[4], B_POS_X_0, B_POS_Y_3, HMENU(4)           },
+    { btNumbers[5], B_POS_X_1, B_POS_Y_3, HMENU(5)           },
+    { btNumbers[6], B_POS_X_2, B_POS_Y_3, HMENU(6)           },
+
+    { btNumbers[7], B_POS_X_0, B_POS_Y_2, HMENU(7)           },
+    { btNumbers[8], B_POS_X_1, B_POS_Y_2, HMENU(8)           },
+    { btNumbers[9], B_POS_X_2, B_POS_Y_2, HMENU(9)           },
+
+    {    "<-",      B_POS_X_0, B_POS_Y_1, HMENU(BackSpace)   },
+    {    "CE",      B_POS_X_1, B_POS_Y_1, HMENU(ClearLast)   },
+    {     "C",      B_POS_X_2, B_POS_Y_1, HMENU(ClearAll)    },
+
+    {    "MC",      B_POS_X_0, B_POS_Y_0, HMENU(MemoClear)   },
+    {    "MR",      B_POS_X_1, B_POS_Y_0, HMENU(MemoRestore) },
+    {    "MS",      B_POS_X_2, B_POS_Y_0, HMENU(MemoSave)    },
+
+    {     "=",      B_POS_X_3, B_POS_Y_5, HMENU(Equal)       },
+    {     "+",      B_POS_X_3, B_POS_Y_4, HMENU(Plus)        },
+    {     "-",      B_POS_X_3, B_POS_Y_3, HMENU(Minus)       },
+    {     "*",      B_POS_X_3, B_POS_Y_2, HMENU(Multiply)    },
+    {     "/",      B_POS_X_3, B_POS_Y_1, HMENU(Divide)      },
 };
 
 HWND Edit;
 HWND buttons[sizeof(buttonDescriptions)] = { };
 static HWND button_About;
-
-const char *buttonNumbers[10] = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
 char FirstOperand[32] = { };
 char SecondOperand[32] = { };
@@ -94,6 +100,7 @@ int Operation;
 void createButtons(HWND& hwnd, HINSTANCE& hInstance, TButtonDescription const *buttonDescriptions, HWND *buttons, size_t length)
 {
     TButtonDescription const *btDescr = buttonDescriptions, *endBtDescr = buttonDescriptions + length;
+
     HWND *pButton = buttons;
 
     while (btDescr < endBtDescr) {
@@ -119,7 +126,7 @@ void processOperation(WPARAM wParam)
     WORD loWordWParam = LOWORD(wParam);
 
     if ((loWordWParam >= 0) && (loWordWParam <= 9)) {
-        strcat(FirstOperand, buttonNumbers[loWordWParam]);
+        strcat(FirstOperand, btNumbers[loWordWParam]);
         SetWindowText(Edit, FirstOperand);
     } else switch (loWordWParam) {
 
@@ -266,24 +273,24 @@ LRESULT CALLBACK WndProc(HWND hwnd,
     LPARAM lParam)
 {
     switch (Message) {
-    case (WM_CREATE): {
-        FirstOperand[0] = 0;
-        SecondOperand[0] = 0;
-        break;
-    }
+        case (WM_CREATE): {
+            FirstOperand[0] = 0;
+            SecondOperand[0] = 0;
+            break;
+        }
 
-    case WM_COMMAND: {
-        processOperation(wParam);
-        break;
-    }
+        case WM_COMMAND: {
+            processOperation(wParam);
+            break;
+        }
 
-    case WM_DESTROY: {
-        PostQuitMessage(0);
-        break;
-    }
+        case WM_DESTROY: {
+            PostQuitMessage(0);
+            break;
+        }
 
-    default:
-        return DefWindowProc(hwnd, Message, wParam, lParam);
+        default:
+            return DefWindowProc(hwnd, Message, wParam, lParam);
     }
 
     return 0;
@@ -317,18 +324,18 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
     hwnd = CreateWindowEx(WS_EX_CLIENTEDGE, "WindowClass", "Калькулятор",
         WS_VISIBLE | WS_OVERLAPPEDWINDOW & ~(WS_MAXIMIZEBOX | WS_MINIMIZEBOX | WS_THICKFRAME),
-        CW_USEDEFAULT, /* x */
-        CW_USEDEFAULT, /* y */
-        MW_WIDTH, /* width */
-        MW_HEIGHT, /* height */
+        CW_USEDEFAULT,  /* x */
+        CW_USEDEFAULT,  /* y */
+        MW_WIDTH,       /* width */
+        MW_HEIGHT,      /* height */
         NULL, NULL, hInstance, NULL);
 
     Edit = CreateWindowEx(WS_EX_CLIENTEDGE, "Edit", "",
         WS_VISIBLE | WS_CHILD | ES_MULTILINE | ES_NUMBER,
-        B_POS_X_0, /* x */
-        B_POS_Y_E, /* y */
-        EDIT_WIDTH, /* width */
-        EDIT_HEIGHT, /* height */
+        B_POS_X_0,      /* x */
+        B_POS_Y_E,      /* y */
+        EDIT_WIDTH,     /* width */
+        EDIT_HEIGHT,    /* height */
         hwnd, NULL, hInstance, NULL);
 
     createButtons(hwnd, hInstance, buttonDescriptions, buttons, sizeof(buttonDescriptions) / sizeof(*buttonDescriptions));
