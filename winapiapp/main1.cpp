@@ -1,3 +1,6 @@
+#pragma comment(lib, "user32.lib")
+#pragma comment(lib, "gdi32.lib")
+
 /*
     Написать калькулятор с WinAPI (без использования форм).
     Должны быть кнопки обычного калькулятора (цифры, точка,
@@ -31,18 +34,20 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     WNDCLASSEX wc = { };
 
     wc.cbSize = sizeof(WNDCLASSEX);
-    wc.lpfnWndProc   = WindowProc;
+    // wc.lpfnWndProc   = WindowProc;
     wc.hInstance     = hInstance;
     wc.hCursor = LoadCursor(NULL, IDC_ARROW);
 
     // wc.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-    wc.hbrBackground = GetStockObject(WHITE_BRUSH);
+    wc.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
     wc.lpszClassName = CLASS_NAME;
     wc.hIcon = LoadIcon(NULL, IDI_APPLICATION);
     wc.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
 
+    MessageBoxW(NULL, L"Йоу!", L"Error!", MB_ICONEXCLAMATION | MB_OK);
+
     if (!RegisterClassEx(&wc)) {
-        MessageBox(NULL, "Window registration is failed!", "Error!", MB_ICONEXCLAMATION | MB_OK);
+        MessageBox(NULL, L"Window registration is failed!", L"Error!", MB_ICONEXCLAMATION | MB_OK);
     }
 
     return 0;

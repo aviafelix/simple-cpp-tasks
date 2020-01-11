@@ -190,7 +190,7 @@ void processOperation(WPARAM wParam)
             double _FirstOperand = atof(FirstOperand);
             double _SecondOperand = atof(SecondOperand);
             if (_FirstOperand == 0 && Operation == Divide) {
-                MessageBox(NULL, "Деление на ноль", "ERROR", MB_ICONERROR);
+                MessageBox(NULL, "Р”РµР»РµРЅРёРµ РЅР° РЅРѕР»СЊ", "ERROR", MB_ICONERROR);
                 FirstOperand[0] = 0;
                 SecondOperand[0] = 0;
                 break;
@@ -322,7 +322,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
         return 0;
     }
 
-    hwnd = CreateWindowEx(WS_EX_CLIENTEDGE, "WindowClass", "Калькулятор",
+    hwnd = CreateWindowEx(WS_EX_CLIENTEDGE, "WindowClass", "РљР°Р»СЊРєСѓР»СЏС‚РѕСЂ",
         WS_VISIBLE | WS_OVERLAPPEDWINDOW & ~(WS_MAXIMIZEBOX | WS_MINIMIZEBOX | WS_THICKFRAME),
         CW_USEDEFAULT,  /* x */
         CW_USEDEFAULT,  /* y */
