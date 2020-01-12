@@ -27,28 +27,116 @@
 #include <math.h>
 #include <string.h>
 
-int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
+LRESULT
+CALLBACK
+mainWndProc(HWND hMainWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-    const wchar_t CLASS_NAME[]  = L"Currculator Window Class";
+    switch (uMsg)
+    {
+        case WM_CREATE:
+            break;
 
-    WNDCLASSEX wc = { };
+        case WM_COMMAND:
+            break;
 
-    wc.cbSize = sizeof(WNDCLASSEX);
-    // wc.lpfnWndProc   = WindowProc;
-    wc.hInstance     = hInstance;
-    wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+        case WM_DESTROY:
+            PostQuitMessage(0);
+            break;
 
-    // wc.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-    wc.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
-    wc.lpszClassName = CLASS_NAME;
-    wc.hIcon = LoadIcon(NULL, IDI_APPLICATION);
-    wc.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
-
-    MessageBoxW(NULL, L"Йоу!", L"Error!", MB_ICONEXCLAMATION | MB_OK);
-
-    if (!RegisterClassEx(&wc)) {
-        MessageBox(NULL, L"Window registration is failed!", L"Error!", MB_ICONEXCLAMATION | MB_OK);
+        default:
+            return ::DefWindowProc(hMainWnd, uMsg, wParam, lParam);
     }
 
     return 0;
+}
+
+int
+WINAPI
+wWinMain(
+    HINSTANCE hInstance,
+    HINSTANCE hPrevInstance,
+    PWSTR pCmdLine,
+    int nCmdShow)
+{
+    const wchar_t CLASS_NAME[]  = L"Currculator Window Class";
+
+    WNDCLASSEX wcex = { };
+    HWND hMainWnd;
+
+    wcex.cbSize = sizeof(WNDCLASSEX);
+    wcex.lpfnWndProc = mainWndProc;
+    wcex.hInstance = hInstance;
+    wcex.hCursor = LoadCursor(hInstance, IDC_ARROW);
+
+    // wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+    wcex.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
+    wcex.lpszClassName = CLASS_NAME;
+    wcex.hIcon = LoadIcon(hInstance, IDI_APPLICATION);
+    wcex.hIconSm = LoadIcon(hInstance, IDI_APPLICATION);
+
+    if ( !RegisterClassEx(&wcex) )
+    {
+        MessageBox(NULL, L"Window registration is failed!", L"Error!", MB_ICONEXCLAMATION | MB_OK);
+        return -1;
+    }
+
+    CREATESTRUCT cs = { };
+    cs.x = CW_USEDEFAULT;
+    cs.y = CW_USEDEFAULT;
+    cs.cx = 1280;
+    cs.cy = 720;
+    cs.hInstance = hInstance;
+    cs.lpszClass = wcex.lpszClassName;
+    cs.lpszName = L"Калькулятор";
+    // cs.style = WS_OVERLAPPEDWINDOW;
+    cs.style = WS_VISIBLE | WS_OVERLAPPEDWINDOW & ~(WS_MAXIMIZEBOX | WS_MINIMIZEBOX | WS_THICKFRAME);
+
+    hMainWnd = CreateWindowEx(
+        cs.dwExStyle,
+        cs.lpszClass,
+        cs.lpszName,
+        cs.style,
+        cs.x,
+        cs.y,
+        cs.cx,
+        cs.cy,
+        cs.hwndParent,
+        cs.hMenu,
+        cs.hInstance,
+        cs.lpCreateParams
+    );
+
+    if (!hMainWnd)
+    {
+        MessageBoxW(NULL, L"Window creation is failed!", L"Error!", MB_ICONEXCLAMATION | MB_OK);
+        return -1;
+    }
+
+    // HACCEL hAccel = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDR_ACCELERATOR));
+    MSG msg = { };
+
+    MessageBoxW(NULL, L"Йоу! — 1", L"No-error!", MB_ICONINFORMATION | MB_YESNO);
+
+    ShowWindow(hMainWnd, SW_SHOWDEFAULT);
+    UpdateWindow(hMainWnd);
+
+    MessageBoxW(NULL, L"Йоу! — 2", L"No-error!", MB_ICONINFORMATION | MB_OK);
+
+    BOOL bRet = 0;
+    while ((bRet = GetMessage(&msg, hMainWnd, 0, 0)) > 0)
+    {
+        // if ( -1 == bRet )
+        // {
+        //     break;
+        // }
+        // if ( !TranslateAccelerator(hMainWnd, hAccel, &msg) )
+        {
+            TranslateMessage(&msg);
+            DispatchMessage(&msg);
+        }
+    }
+
+    UnregisterClass(wcex.lpszClassName, hInstance);
+
+    return msg.wParam;
 }
