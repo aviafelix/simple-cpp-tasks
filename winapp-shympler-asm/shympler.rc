@@ -1,0 +1,368 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+#ifdef _WIN32
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+IDR_XPMANIFEST1 MANIFEST "xpmanifest.xml"
+
+
+VS_VERSION_INFO VERSIONINFO
+FILEVERSION     VER_FILEVERSION
+PRODUCTVERSION  VER_PRODUCTVERSION
+FILEFLAGSMASK   VS_FFI_FILEFLAGSMASK
+FILEFLAGS       (VS_FF_PRIVATEBUILD|VS_FF_PRERELEASE|VER_DEBUG)
+FILEOS          VOS__WINDOWS32
+FILETYPE        VFT_APP
+FILESUBTYPE     VFT2_UNKNOWN
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904E4"
+        BEGIN
+            VALUE "Comments",           VER_COMMENTS_STR
+            VALUE "CompanyName",        VER_COMPANYNAME_STR
+            VALUE "FileDescription",    VER_FILEDESCRIPTION_STR
+            VALUE "FileVersion",        VER_FILEVERSION_STR
+            VALUE "InternalName",       VER_INTERNALNAME_STR
+            VALUE "LegalCopyright",     VER_LEGALCOPYRIGHT_STR
+            VALUE "LegalTrademarks",    VER_LEGALTRADEMARKS_STR
+//            VALUE "LegalTrademarks1", "\0"
+//            VALUE "LegalTrademarks2", "\0"
+            VALUE "OriginalFilename",   VER_ORIGINALFILENAME_STR
+            VALUE "ProductName",        VER_PRODUCTNAME_STR
+            VALUE "ProductVersion",     VER_PRODUCTVERSION_STR
+        END
+    END
+
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x0419, 1251
+    END
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDM_MAINMENU MENU DISCARDABLE 
+BEGIN
+    POPUP "&Файл"
+    BEGIN
+        POPUP "&Добавить"
+        BEGIN
+            MENUITEM "Файлы",                       IDADDFILE
+            MENUITEM "Папку",                       IDADDDIR
+        END
+        POPUP "&Удалить"
+        BEGIN
+            MENUITEM "Выделенное",                  IDREMFILE
+            MENUITEM "Всё",                         IDREMALL
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "&Выход",                      IDEXIT
+    END
+    POPUP "&Команды"
+    BEGIN
+        MENUITEM "Играть",                      IDPLAY
+        MENUITEM "Пауза",                       IDFIRST
+        MENUITEM "Стоп",                        IDSTOP
+        MENUITEM SEPARATOR
+        MENUITEM "Следующий",                   IDNEXT
+        MENUITEM "Предыдущий",                  IDPREVIOUS
+        MENUITEM "Первый",                      IDFIRST
+        MENUITEM "На начало",                   IDBEGIN
+        MENUITEM SEPARATOR
+        MENUITEM "Направление",                 IDDIRECTION
+        MENUITEM SEPARATOR
+        MENUITEM "Сменить иконку",              IDNEXTICON
+        MENUITEM "Установить иконку на рабочий стол", IDSETICONDESCT
+        MENUITEM SEPARATOR
+        MENUITEM "Ассоциировать с MIDI",        IDASSOCIATE
+    END
+    POPUP "&WinAmp ПлейЛист"
+    BEGIN
+        MENUITEM "Выделить всё",                IDSELALL
+        MENUITEM SEPARATOR
+        MENUITEM "Открыть...",                  IDOPENPL
+        MENUITEM "Сохранить...",                IDSAVEPL
+        MENUITEM SEPARATOR
+        MENUITEM "Показать",                    IDSHOWPL
+        MENUITEM "Убрать",                      IDCLOSEPL
+    END
+    POPUP "???"
+    BEGIN
+        MENUITEM "О SMPlayer'е...",             IDABOUT
+        MENUITEM "Помощь...",                   IDHELP
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON1               ICON    DISCARDABLE     "A_ICONS\\shmp1.ico"
+IDI_ICON2               ICON    DISCARDABLE     "A_ICONS\\shmp2.ico"
+IDI_ICON3               ICON    DISCARDABLE     "A_ICONS\\shmp3.ico"
+IDI_ICON4               ICON    DISCARDABLE     "A_ICONS\\shmp4.ico"
+IDI_ICON5               ICON    DISCARDABLE     "A_ICONS\\shmp5.ico"
+IDI_ICON6               ICON    DISCARDABLE     "A_ICONS\\shmp6.ico"
+IDI_ICON7               ICON    DISCARDABLE     "A_ICONS\\shmp7.ico"
+IDI_ICON8               ICON    DISCARDABLE     "A_ICONS\\shmp8.ico"
+IDI_ICON9               ICON    DISCARDABLE     "A_ICONS\\shmp9.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_MAIN DIALOG DISCARDABLE  180, 70, 190, 86
+STYLE DS_SYSMODAL | DS_SETFOREGROUND | DS_3DLOOK | WS_MINIMIZEBOX | WS_POPUP | 
+    WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Shyar MIDI Player"
+MENU IDM_MAINMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   " > ",IDPLAY,33,68,13,11,BS_FLAT
+    PUSHBUTTON      "[<",IDPREVIOUS,18,68,13,11,BS_FLAT
+    PUSHBUTTON      " >]",IDNEXT,78,68,13,11,BS_FLAT
+    PUSHBUTTON      "[[|]]",IDSTOP,63,68,13,11,BS_FLAT
+    PUSHBUTTON      "||",IDPAUSE,48,68,13,11,BS_FLAT
+    PUSHBUTTON      "+",IDADDFILE,169,68,13,11,BS_FLAT
+    PUSHBUTTON      "-",IDREMFILE,155,68,13,11,BS_FLAT
+    PUSHBUTTON      "",IDNEXTICON,3,14,13,11,BS_BITMAP | BS_FLAT | NOT 
+                    WS_TABSTOP
+    PUSHBUTTON      "||<",IDBEGIN,2,68,13,11,BS_FLAT | NOT WS_TABSTOP
+    PUSHBUTTON      "><",IDDIRECTION,120,68,13,11,BS_FLAT | NOT WS_TABSTOP
+END
+
+IDD_ADDFILES DIALOGEX 100, 100, 333, 151
+STYLE DS_SYSMODAL | DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_VISIBLE | 
+    WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_ACCEPTFILES | WS_EX_CLIENTEDGE
+CAPTION "SMPlayer:  Добавить файл(-ы)"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    LISTBOX         FILEDIRLIST,7,7,266,137,LBS_OWNERDRAWVARIABLE | 
+                    LBS_HASSTRINGS | LBS_WANTKEYBOARDINPUT | WS_VSCROLL | 
+                    WS_HSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "Добавить",IDOK,276,41,50,14,NOT WS_TABSTOP,
+                    WS_EX_DLGMODALFRAME
+    PUSHBUTTON      "Отмена",IDCANCEL,276,18,50,14,BS_CENTER | BS_VCENTER | 
+                    WS_GROUP | NOT WS_TABSTOP,WS_EX_DLGMODALFRAME
+END
+
+IDD_ADDDIRS DIALOGEX 100, 100, 333, 151
+STYLE DS_SYSMODAL | DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_VISIBLE | 
+    WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_ACCEPTFILES | WS_EX_CLIENTEDGE
+CAPTION "SMPlayer:  Добавить папку(-и)"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "Добавить",IDOK,267,41,50,14,NOT WS_TABSTOP,
+                    WS_EX_DLGMODALFRAME
+    PUSHBUTTON      "Отмена",IDCANCEL,267,18,50,14,BS_CENTER | BS_VCENTER | 
+                    WS_GROUP | NOT WS_TABSTOP,WS_EX_DLGMODALFRAME
+    CONTROL         "",IDC_TREECTRL1,"{0713E8A2-850A-101B-AFC0-4210102A8DA7}",
+                    WS_TABSTOP,4,3,249,146
+END
+
+IDD_PLAYLIST DIALOGEX 180, 182, 186, 86
+STYLE DS_SETFOREGROUND | DS_3DLOOK | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_VSCROLL | WS_SYSMENU | WS_THICKFRAME
+EXSTYLE WS_EX_TOOLWINDOW
+CAPTION "Shympler PlayList"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    LISTBOX         PLAYLIST,7,7,167,74,LBS_OWNERDRAWVARIABLE | 
+                    LBS_HASSTRINGS | LBS_WANTKEYBOARDINPUT | WS_VSCROLL | 
+                    WS_HSCROLL | WS_TABSTOP
+END
+
+IDD_LOADING DIALOGEX 200, 150, 128, 91
+STYLE DS_SETFOREGROUND | DS_3DLOOK | WS_POPUP | WS_VISIBLE | WS_DISABLED | 
+    WS_BORDER | WS_SYSMENU
+EXSTYLE WS_EX_TOOLWINDOW
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    CONTROL         "Сообщение Shyar MIDI Player",IDC_STATIC,"Static",
+                    SS_LEFTNOWORDWRAP | SS_CENTERIMAGE | WS_GROUP | 
+                    WS_TABSTOP,16,5,104,17
+    CONTROL         "Идёт загрузка MIDI-файла...",IDC_STATIC,"Static",
+                    SS_SIMPLE | SS_CENTERIMAGE | WS_GROUP | WS_TABSTOP,17,30,
+                    103,16
+    LTEXT           "Потерпите немного...",IDC_STATIC,25,55,74,8,WS_TABSTOP
+    LTEXT           "Shympler,v3.6, 2003",IDC_STATIC,57,78,66,8,WS_TABSTOP
+END
+
+IDD_ABOUT DIALOG DISCARDABLE  0, 0, 263, 122
+STYLE DS_MODALFRAME | WS_CHILD | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "About Shympler"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,206,101,50,14
+    CTEXT           "Проигрыватель MIDI-файлов",IDC_STATIC,7,26,249,17,
+                    SS_CENTERIMAGE | WS_TABSTOP
+    CTEXT           "---===|[     Shyar MIDI Player     ]|===---",IDC_STATIC,
+                    7,6,249,17,SS_CENTERIMAGE | SS_SUNKEN | WS_TABSTOP
+    CTEXT           "с качеством табличного синтеза",IDC_STATIC,7,41,249,17,
+                    SS_CENTERIMAGE | WS_TABSTOP
+    RTEXT           "Shyar, 2003, v3.6.        ",IDC_STATIC,7,55,249,17,
+                    SS_CENTERIMAGE | WS_TABSTOP
+    RTEXT           "E-mail: Shyar@list.ru     ",IDC_STATIC,7,68,249,17,
+                    SS_CENTERIMAGE | WS_TABSTOP
+    RTEXT           "P.S. На качество и оформление не жаловаться - это учебная программа",
+                    IDC_STATIC,7,84,249,17,SS_CENTERIMAGE | WS_TABSTOP
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    "IDD_ADDFILES", DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 326
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 144
+    END
+
+    "IDD_PLAYLIST", DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 81
+    END
+
+    "IDD_ABOUT", DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 256
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 115
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Toolbar
+//
+
+IDR_BUTTONS TOOLBAR DISCARDABLE  13, 11
+BEGIN
+    BUTTON      IDBEGIN
+    BUTTON      IDPREVIOUS
+    BUTTON      IDPLAY
+    BUTTON      IDPAUSE
+    BUTTON      IDSTOP
+    BUTTON      IDNEXT
+    SEPARATOR
+    BUTTON      IDDIRECTL
+    BUTTON      IDDIRECTC
+    SEPARATOR
+    BUTTON      IDREMFILE
+    BUTTON      IDADDFILE
+END
+
+IDR_BUTTNI TOOLBAR DISCARDABLE  13, 11
+BEGIN
+    BUTTON      IDNEXTICON
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDR_BUTTONS             BITMAP  DISCARDABLE     "a_icons\\toolbar1.bmp"
+IDR_BUTTNI              BITMAP  DISCARDABLE     "a_icons\\toolbarz.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_ADDDIRS DLGINIT
+BEGIN
+    IDC_TREECTRL1, 0x376, 138, 0
+0x0017, 0x0000, 0x0020, 0x0071, 0x0068, 0x006a, 0x0020, 0x005a, 0x0074, 
+0x0075, 0x0051, 0x0068, 0x0061, 0x003b, 0x006a, 0x0064, 0x0066, 0x006e, 
+0x005b, 0x0069, 0x0061, 0x0065, 0x0074, 0x0072, 0x0020, 0x4321, 0x1234, 
+0x0008, 0x0000, 0x26a7, 0x0000, 0x187f, 0x0000, 0x7e8e, 0xe6e1, 0x0002, 
+0x0005, 0x0022, 0x0000, 0x011d, 0x0000, 0x03ed, 0x0000, 0x0001, 0x0000, 
+0xef01, 0xabcd, 0x0000, 0x0005, 0xa25d, 0x7ff5, 0x0006, 0x0000, 0x4e14, 
+0x0056, 0x0005, 0x8000, 0xf600, 0x0067, 0x0001, 0x0000, 0x005c, 0xde1f, 
+0xbdec, 0x0001, 0x0005, 0xf028, 0x0045, 0x0045, 
+    0
+END
+
+#endif    // Russian resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
