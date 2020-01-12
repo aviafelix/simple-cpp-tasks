@@ -5,6 +5,6 @@ ifdef	_TASM_
 	ShellExecute	equ	ShellExecuteA
 else
 	includelib	shell32.lib
-		extrn	__imp__ShellExecuteA@24:dword
-	ShellExecute	equ	__imp__ShellExecuteA@24
+		extrn	_ShellExecuteA@24:near
+	ShellExecute	equ	_ShellExecuteA@24
 endif

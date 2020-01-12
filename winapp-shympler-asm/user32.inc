@@ -49,63 +49,63 @@ ifdef _TASM_
 	CreateDialogParam equ	CreateDialogParamA
 else
 		includelib	user32.lib
-		extrn	__imp__SetDlgItemInt@16:dword
-		extrn	__imp__MessageBoxA@16:dword
-		extrn	__imp__DispatchMessageA@4:dword
-		extrn	__imp__TranslateMessage@4:dword
-		extrn	__imp__GetMessageA@16:dword
-		extrn	__imp__LoadIconA@8:dword
-		extrn	__imp__UpdateWindow@4:dword
-		extrn	__imp__ShowWindow@8:dword
-		extrn	__imp__CreateWindowExA@48:dword
-		extrn	__imp__DefWindowProcA@16:dword
-		extrn	__imp__PostQuitMessage@4:dword
-		extrn	__imp__RegisterClassExA@4:dword
-		extrn	__imp__LoadCursorA@8:dword
-		extrn	__imp__LoadMenuA@8:dword
-		extrn	__imp__SetMenu@8:dword
-		extrn	__imp__DestroyWindow@4:dword
-		extrn	__imp__DialogBoxParamA@20:dword
-		extrn	__imp__GetDlgItem@8:dword
-		extrn	__imp__SetFocus@4:dword
-		extrn	__imp__GetDlgItemTextA@16:dword
-		extrn	__imp__SetDlgItemTextA@12:dword
-		extrn	__imp__EndDialog@8:dword
-		extrn	__imp__LoadAcceleratorsA@8:dword
-		extrn	__imp__TranslateAccelerator@12:dword
-		extrn	__imp__SendMessageA@16:dword
-		extrn	__imp__SetWindowTextA@8:dword
-		extrn	__imp__MoveWindow@24:dword
-		extrn	__imp__GetClientRect@8:dword
-		extrn	__imp__GlobalUnlock@4:dword
-		extrn	__imp__CreateDialogParamA@20:dword
-	MessageBox	equ __imp__MessageBoxA@16
-	DispatchMessage	equ __imp__DispatchMessageA@4
-	TranslateMessage equ __imp__TranslateMessage@4
-	GetMessage	equ __imp__GetMessageA@16
-	LoadIcon	equ __imp__LoadIconA@8
-	UpdateWindow	equ __imp__UpdateWindow@4
-	ShowWindow	equ __imp__ShowWindow@8
-	CreateWindowEx	equ __imp__CreateWindowExA@48
-	DefWindowProc	equ __imp__DefWindowProcA@16
-	PostQuitMessage	equ __imp__PostQuitMessage@4
-	RegisterClassEx equ __imp__RegisterClassExA@4
-	LoadCursor	equ __imp__LoadCursorA@8
-	LoadMenu	equ __imp__LoadMenuA@8
-	SetMenu		equ __imp__SetMenu@8
-	DestroyWindow	equ __imp__DestroyWindow@4
-	DialogBoxParam	equ __imp__DialogBoxParamA@20
-	GetDlgItem	equ __imp__GetDlgItem@8
-	SetFocus	equ __imp__SetFocus@4
-	GetDlgItemText	equ __imp__GetDlgItemTextA@16
-	SetDlgItemText	equ __imp__SetDlgItemTextA@12
-	EndDialog	equ __imp__EndDialog@8
-	LoadAccelerators equ __imp__LoadAcceleratorsA@8
-	TranslateAccelerator equ __imp__TranslateAccelerator@12
-	SendMessage	equ __imp__SendMessageA@16
-	SetWindowText	equ __imp__SetWindowTextA@8
-	MoveWindow	equ __imp__MoveWindow@24
-	GetClientRect	equ __imp__GetClientRect@8
-	GlobalUnlock	equ __imp__GlobalUnlock@4
-	CreateDialogParam equ	__imp__CreateDialogParamA@20
+		extrn	_SetDlgItemInt@16:near
+		extrn	_MessageBoxA@16:near
+		extrn	_DispatchMessageA@4:near
+		extrn	_TranslateMessage@4:near
+		extrn	_GetMessageA@16:near
+		extrn	_LoadIconA@8:near
+		extrn	_UpdateWindow@4:near
+		extrn	_ShowWindow@8:near
+		extrn	_CreateWindowExA@48:near
+		extrn	_DefWindowProcA@16:near
+		extrn	_PostQuitMessage@4:near
+		extrn	_RegisterClassExA@4:near
+		extrn	_LoadCursorA@8:near
+		extrn	_LoadMenuA@8:near
+		extrn	_SetMenu@8:near
+		extrn	_DestroyWindow@4:near
+		extrn	_DialogBoxParamA@20:near
+		extrn	_GetDlgItem@8:near
+		extrn	_SetFocus@4:near
+		extrn	_GetDlgItemTextA@16:near
+		extrn	_SetDlgItemTextA@12:near
+		extrn	_EndDialog@8:near
+		extrn	_LoadAcceleratorsA@8:near
+		extrn	_TranslateAcceleratorA@12:near
+		extrn	_SendMessageA@16:near
+		extrn	_SetWindowTextA@8:near
+		extrn	_MoveWindow@24:near
+		extrn	_GetClientRect@8:near
+		extrn	_GlobalUnlock@4:near
+		extrn	_CreateDialogParamA@20:near
+	MessageBox	equ _MessageBoxA@16
+	DispatchMessage	equ _DispatchMessageA@4
+	TranslateMessage equ _TranslateMessage@4
+	GetMessage	equ _GetMessageA@16
+	LoadIcon	equ _LoadIconA@8
+	UpdateWindow	equ _UpdateWindow@4
+	ShowWindow	equ _ShowWindow@8
+	CreateWindowEx	equ _CreateWindowExA@48
+	DefWindowProc	equ _DefWindowProcA@16
+	PostQuitMessage	equ _PostQuitMessage@4
+	RegisterClassEx equ _RegisterClassExA@4
+	LoadCursor	equ _LoadCursorA@8
+	LoadMenu	equ _LoadMenuA@8
+	SetMenu		equ _SetMenu@8
+	DestroyWindow	equ _DestroyWindow@4
+	DialogBoxParam	equ _DialogBoxParamA@20
+	GetDlgItem	equ _GetDlgItem@8
+	SetFocus	equ _SetFocus@4
+	GetDlgItemText	equ _GetDlgItemTextA@16
+	SetDlgItemText	equ _SetDlgItemTextA@12
+	EndDialog	equ _EndDialog@8
+	LoadAccelerators equ _LoadAcceleratorsA@8
+	TranslateAccelerator equ _TranslateAcceleratorA@12
+	SendMessage	equ _SendMessageA@16
+	SetWindowText	equ _SetWindowTextA@8
+	MoveWindow	equ _MoveWindow@24
+	GetClientRect	equ _GetClientRect@8
+	GlobalUnlock	equ _GlobalUnlock@4
+	CreateDialogParam equ	_CreateDialogParamA@20
 endif
