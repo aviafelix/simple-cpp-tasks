@@ -59,7 +59,7 @@ hicn		dd	9 dup (?)
 rectangle	RECT	<>
 
 	.code
-start:
+_start:
 	call	IsDebuggerPresent
 	push	offset InitCtrlEx
 	call	InitCommonControlsEx
@@ -425,7 +425,7 @@ close_af:
 	push	ebx
 	push	af_hWnd
 	call	EndDialog
-	jmp	exit_dp
+	jmp	exit_af
 
 not_close_af:
 	cmp	af_uMsg, WM_INITDIALOG
@@ -653,4 +653,4 @@ view		proc	near
 
 view	endp
 
-end	start
+end	_start
