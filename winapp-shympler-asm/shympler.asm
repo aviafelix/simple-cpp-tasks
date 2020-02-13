@@ -15,10 +15,13 @@ HLP db "ShymplerHelp.HTM",0
 	.data
 well_msg	db "Программа стартовала!",0Ah, 0Dh
 		db "Слушайте > "
-musname		db "_0.mid",0	;"Вечерний звон.mid",0
+musname		db "_0.mid",0
+; musname		db "Вечерний звон.mid",0
+; musname		db "music5.mid", 0
 		db  260 dup (0)
 xyz_title	db " => Инфо о меню EAX : [|}",0
 xyz_msg		db "Значение регистра EAX = "
+err_msg		db "Внимание! Произошла ошибка создания окна!",0
 _eax_reg_	db  -1
 _eax_reg_1	db  -1
 _eax_reg_2	db  -1
@@ -40,6 +43,7 @@ wclass_name	db "Shymplayer",0
 wnd_name	db "Shyar MIDI Player",0
 ;wndc WNDCLASSEX <4*12 , CS_HREDRAW or CS_VREDRAW,offset maindialogproc,0,0,?,?,?,\
 ;			COLOR_WINDOW+1,offset mainmenuname,offset wclass_name,0>
+;wc		WNDCLASSEX <>
 icon_n		dd	0	;заменить на 0
 showplaylist	db	0
 playlistshowed	db	0
@@ -47,16 +51,20 @@ minmz		db	1
 direction	db	0	;0-вперёд; 1-цикл
 cmdp_empty	db	1
 InitCtrlEx	INITCOMMONCONTROLSEX_STRUC <8, ICC_STANDARD_CLASSES>
+; midi_loaded	db	0
+; exitflag	db	0
+; 		db	2 dup (0)
 	.data?
 hplaylistwnd	dd	?
 haddfilewnd	dd	?
 hadddirwnd	dd	?
-hloading	dd	?
+hloadingwnd	dd	?
 hinst		dd	?
 hmenu		dd	?
 hdialwnd	dd	?
 hicn		dd	9 dup (?)
 rectangle	RECT	<>
+msg_ MSG <?,?,?,?,?,?>
 
 	.code
 _start:
@@ -101,6 +109,10 @@ cmdline_empty:
 	call	GetModuleHandle
 	mov	[hinst], eax
 
+	; mov	esi, eax	; Помещаем идентификатор процесса в переменную
+	; mov	dword ptr wc.hInstance, eax
+
+;Загружаем иконки
 	mov	ecx, 9
 lpc:
 
@@ -115,6 +127,94 @@ lpc:
 	inc	ecx
 	loop	lpc
 
+; ;Стиль окна
+; 	mov	dword ptr wc.cbSize, 4*12
+; 	mov	dword ptr wc.style, CS_HREDRAW or CS_VREDRAW ; CS_: CLASSDC PARENTDC GLOBALCLASS
+; 	mov	dword ptr wc.lpfnWndProc, offset maindialogproc
+
+; 	mov	dword ptr wc.cbClsExtra, 0
+; 	mov	dword ptr wc.cbWndExtra, 0
+
+; 	mov	ecx, icon_n
+; 	mov	eax, dword ptr hicn[ecx*4]
+; 	mov	dword ptr wc.hIcon, eax
+
+; 	push	IDC_ARROW;IDC_CROSS
+; 	push	0
+; 	call	LoadCursor
+; 	mov	dword ptr wc.hCursor, eax
+
+; ;Цвет окна
+; 	mov	dword ptr wc.hbrBackground, COLOR_WINDOW+1;6
+
+; 	mov	dword ptr wc.lpszMenuName, offset mainmenuname
+; 	mov	dword ptr wc.lpszClassName, offset wclass_name
+; 	mov	dword ptr wc.hIconSm, 0
+
+; ;Регистрируем класс
+; 	push	offset wc
+; 	call	RegisterClassEx
+
+; ;Загружаем меню из ресурсов
+; 	push	offset mainmenuname
+; 	push	[hinst]
+; 	call	LoadMenu
+
+; 	mov	hmenu, eax
+
+; 	xor	ebx, ebx
+; 	mov	esi, [hinst]
+; 	mov	eax, [hmenu]
+
+; ;Создаём ГЛАВНОЕ ОКНО
+; 	push	ebx			; Адрес стр-ры  CreateStruc (null)
+
+; 	push	esi			; Идентификатор процесса - получателя сообщений от окна
+; 	push	ebx;eax			; Идентификатор меню или окна - потомка
+
+; 	push	ebx			; Идентификатор окна-предка
+
+; 	push	86			; Высота
+; 	push	190			; Ширина
+
+; 	push	70			; Y-координата
+; 	push	180			; X-координата
+
+; 				; Стиль окна
+; 	push	WS_MINIMIZEBOX or WS_VISIBLE or WS_CAPTION or WS_SYSMENU or WS_POPUP
+; ;DS_SYSMODAL or DS_SETFOREGROUND or DS_3DLOOK or
+
+; 	push	offset wnd_name		; Заголовок окна
+; 	push	offset wclass_name		; Название зарегистрированного класса
+; 	push	ebx			; Дополнительный стиль
+
+; 	call	CreateWindowEx
+; 	mov	[hdialwnd], eax
+
+; ;Проверяем на ошибку
+; 	test	eax, eax
+; 	jne	wellstart
+; ;Окно не создано
+
+; 	push	MB_ICONINFORMATION
+; 	push	offset wnd_name
+; 	push	offset err_msg
+; 	push	[hinst]
+; 	call	MessageBox
+
+; 	jmp	wnd_not_created	; завершаем программу
+
+; ; Успешный (Success) Старт
+; wellstart:
+; 	push	eax		; Для UpdateWindow
+
+; 	push	SW_SHOWNORMAL   ;}\
+; 	push	eax		;}/ Для ShowWindow
+; 	call	ShowWindow
+
+; 	call	UpdateWindow
+
+;Инициируем MIDI
 	push	[hinst]
 
 	mov	esi, [hinst]
@@ -126,12 +226,14 @@ lpc:
 	push	offset dloadingname
 	push	[hinst]
 	call	CreateDialogParam
-	mov	dword ptr hloading, eax
+	mov	dword ptr hloadingwnd, eax
 
 	push	offset musname
 	call	Rex_MIDI_load
 
-	push	hloading
+	; mov	byte ptr midi_loaded, 1
+
+	push	hloadingwnd
 	call	DestroyWindow
 
 	push	0
@@ -142,10 +244,16 @@ lpc:
 	call	DialogBoxParam
 	cmp	eax, -1
 	jne	final
+; doloopon:
+; 	cmp	exitflag, 1
+; 	call	view
+; 	jne	doloopon;final
+
 final:
 	call	Rex_MIDI_stop
 	call	Rex_MIDI_unload
 	call	Rex_MIDI_exit
+wnd_not_created:
 	push	ebx
 	call	ExitProcess
 
@@ -169,12 +277,14 @@ close_dp:
 	push	ebx
 	push	dp_hWnd
 	call	EndDialog
+
 	jmp	exit_dp
 
 not_close:
 	cmp	dp_uMsg, WM_INITDIALOG
 	jne	short check_command
 
+	; mov	ecx, dword ptr icon_n
 	mov	eax, hicn[0*4] ; ecx*4
 	push	eax
 	push	ebx
@@ -220,6 +330,7 @@ nexticon:
 	push	WM_SETICON
 	push	dp_hWnd
 	call	SendMessage
+
 	jmp	exit_dp
 check_exit:
 
@@ -295,6 +406,9 @@ check_addfile:
 	cmp	ax, IDADDFILE
 	jne	check_adddir
 addfiles:
+	; cmp	midi_loaded, 0
+	; jne	exit_dp
+
 	push	0
 	push	offset addfileproc
 	push	0
@@ -304,6 +418,7 @@ addfiles:
 	jmp	exit_dp
 check_adddir:
 	cmp	ax, IDADDDIR
+	; jne	check_remfile
 	jne	check_about
 adddir:
 	push	0
@@ -313,6 +428,19 @@ adddir:
 	push	[hinst]
 	call	DialogBoxParam
 	jmp	exit_dp
+; check_remfile:
+; 	cmp	ax, IDREMFILE
+; 	jne	exit_dp	;check_...
+; rem_file:
+; 	cmp	byte ptr midi_loaded, 1
+; 	jne	exit_dp
+
+; 	call	Rex_MIDI_stop
+; 	call	Rex_MIDI_unload
+; 	call	Rex_MIDI_exit
+
+; 	mov	byte ptr midi_loaded, 0
+; 	jmp	short exit_dp
 check_about:
 	cmp	ax, IDABOUT
 	jne	check_help
@@ -351,6 +479,8 @@ butt_msg:
 	je	addfiles
 	cmp	eax, IDADDDIR
 	je	adddir
+	; cmp	eax, IDREMFILE
+	; je	rem_file
 	jmp	short exit_dp
 minimsize:
 	cmp	minmz, 0
@@ -486,7 +616,7 @@ close_ld:
 
 	push	ld_hWnd
 	call	DestroyWindow
-
+	; mov	playlistshowed, 0
 	jmp	exit_ld
 
 not_close_ld:
@@ -551,6 +681,7 @@ resize proc near
 	push	offset	rectangle
 	push	hdialwnd
 	call	GetClientRect
+	; dec	rectangle.left
 	jz	exit_resize
 	push	0
 	push	rectangle.bottom
