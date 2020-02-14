@@ -4,6 +4,11 @@ ifdef _TASM_
 		extrn	InitCommonControlsEx:near
 else
 		includelib	comctl32.lib
-		extrn	_InitCommonControlsEx@4:near
-InitCommonControlsEx	equ	_InitCommonControlsEx@4
+        extrn   __imp__InitCommonControlsEx@4:dword
+		; extrn	_InitCommonControlsEx@4:dword
+
+    InitCommonControlsEx    equ __imp__InitCommonControlsEx@4
+    _InitCommonControlsEx equ __imp__InitCommonControlsEx@4
+    ; InitCommonControlsEx	equ	_InitCommonControlsEx@4
+    ; _InitCommonControlsEx equ _InitCommonControlsEx@4
 endif

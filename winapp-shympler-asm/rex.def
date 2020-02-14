@@ -1,0 +1,84 @@
+LIBRARY "rex.dll"
+EXPORTS
+Rex_CD_close
+_Rex_CD_close@0 = Rex_CD_close
+Rex_CD_close_door
+_Rex_CD_close_door@0 = Rex_CD_close_door
+Rex_CD_fforward
+_Rex_CD_fforward@0 = Rex_CD_fforward
+Rex_CD_get_num_tracks
+_Rex_CD_get_num_tracks@0 = Rex_CD_get_num_tracks
+Rex_CD_init
+_Rex_CD_init@0 = Rex_CD_init
+Rex_CD_is_playing
+_Rex_CD_is_playing@0 = Rex_CD_is_playing
+Rex_CD_open_door
+_Rex_CD_open_door@0 = Rex_CD_open_door
+Rex_CD_pause
+_Rex_CD_pause@0 = Rex_CD_pause
+Rex_CD_play
+_Rex_CD_play@0 = Rex_CD_play
+Rex_CD_play_next_track
+_Rex_CD_play_next_track@0 = Rex_CD_play_next_track
+Rex_CD_play_previous_track
+_Rex_CD_play_previous_track@0 = Rex_CD_play_previous_track
+Rex_CD_play_track
+_Rex_CD_play_track@0 = Rex_CD_play_track
+Rex_CD_resume
+_Rex_CD_resume@0 = Rex_CD_resume
+Rex_CD_rewind
+_Rex_CD_rewind@0 = Rex_CD_rewind
+Rex_CD_stop
+_Rex_CD_stop@0 = Rex_CD_stop
+Rex_DuplicateBuffer
+_Rex_DuplicateBuffer@8 = Rex_DuplicateBuffer
+Rex_Exit
+_Rex_Exit@0 = Rex_Exit
+Rex_GetCaps
+_Rex_GetCaps@4 = Rex_GetCaps
+Rex_GetFrequency
+_Rex_GetFrequency@8 = Rex_GetFrequency
+Rex_GetPan
+_Rex_GetPan@8 = Rex_GetPan
+Rex_GetPosition
+_Rex_GetPosition@12 = Rex_GetPosition
+Rex_GetSound
+_Rex_GetSound@8 = Rex_GetSound
+Rex_GetVolume
+_Rex_GetVolume@8 = Rex_GetVolume
+Rex_Init
+_Rex_Init@4 = Rex_Init
+Rex_IsPlaying
+_Rex_IsPlaying@8 = Rex_IsPlaying
+Rex_MIDI_exit
+_Rex_MIDI_exit@0 = Rex_MIDI_exit
+Rex_MIDI_init
+_Rex_MIDI_init@0 = Rex_MIDI_init
+Rex_MIDI_load
+_Rex_MIDI_load@0 = Rex_MIDI_load
+Rex_MIDI_play
+_Rex_MIDI_play@0 = Rex_MIDI_play
+Rex_MIDI_playlooped
+_Rex_MIDI_playlooped@4 = Rex_MIDI_playlooped
+Rex_MIDI_stop
+_Rex_MIDI_stop@0 = Rex_MIDI_stop
+Rex_MIDI_unload
+_Rex_MIDI_unload@0 = Rex_MIDI_unload
+Rex_Play
+_Rex_Play@8 = Rex_Play
+Rex_PlayLooped
+_Rex_PlayLooped@4 = Rex_PlayLooped
+Rex_SetFrequency
+_Rex_SetFrequency@8 = Rex_SetFrequency
+Rex_SetPan
+_Rex_SetPan@8 = Rex_SetPan
+Rex_SetVolume
+_Rex_SetVolume@8 = Rex_SetVolume
+Rex_Stop
+_Rex_Stop@4 = Rex_Stop
+Rex_bCreate
+_Rex_bCreate@20 = Rex_bCreate
+Rex_bRelease
+_Rex_bRelease@4 = Rex_bRelease
+Rex_bWrite
+_Rex_bWrite@16 = Rex_bWrite

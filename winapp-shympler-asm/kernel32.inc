@@ -21,32 +21,47 @@ GetCommandLine	equ	GetCommandLineA
 CreateFile	equ	CreateFileA
 else
 	includelib	kernel32.lib
-		extrn _IsDebuggerPresent@0:near
-		extrn _ExitProcess@4:near
-		extrn _GetStdHandle@4:near
-		extrn _WriteConsoleA@20:near
-		extrn _GetModuleHandleA@4:near
-		extrn _lstrlenA@4:near
-		extrn _GetCommandLineA@0:near
-		extrn _CloseHandle@4:near
-		extrn _GlobalAlloc@8:near
-		extrn _GlobalLock@4:near
-		extrn _GlobalFree@4:near
-		extrn _CreateFileA@28:near
-		extrn _ReadFile@20:near
-		extrn _WriteFile@20:near
-IsDebuggerPresent	equ	_IsDebuggerPresent@0
-GetStdHandle	equ	_GetStdHandle@4
-WriteConsole	equ	_WriteConsoleA@20
-ExitProcess	equ	_ExitProcess@4
-GetModuleHandle	equ	_GetModuleHandleA@4
-lstrlen		equ	_lstrlenA@4
-GetCommandLine	equ	_GetCommandLineA@0
-CloseHandle	equ	_CloseHandle@4
-GlobalAlloc	equ	_GlobalAlloc@8
-GlobalLock	equ	_GlobalLock@4
-GlobalFree	equ	_GlobalFree@4
-CreateFile	equ	_CreateFileA@28
-ReadFile	equ	_ReadFile@20
-WriteFile	equ	_WriteFile@20
+		extrn __imp__ExitProcess@4:dword
+		extrn __imp__IsDebuggerPresent@0:dword
+		extrn __imp__GetStdHandle@4:dword
+		extrn __imp__WriteConsoleA@20:dword
+		extrn __imp__GetModuleHandleA@4:dword
+		extrn __imp__lstrlen@4:dword
+		extrn __imp__GetCommandLineA@0:dword
+		extrn __imp__CloseHandle@4:dword
+		extrn __imp__GlobalAlloc@8:dword
+		extrn __imp__GlobalLock@4:dword
+		extrn __imp__GlobalFree@4:dword
+		extrn __imp__CreateFileA@28:dword
+		extrn __imp__ReadFile@20:dword
+		extrn __imp__WriteFile@20:dword
+
+	ExitProcess	equ	__imp__ExitProcess@4
+	__imp_ExitProcess equ	__imp__ExitProcess@4
+	IsDebuggerPresent equ	__imp__IsDebuggerPresent@0
+	__imp_IsDebuggerPresent equ	__imp__IsDebuggerPresent@0
+	GetStdHandle	equ	__imp__GetStdHandle@4
+	__imp_GetStdHandle equ	__imp__GetStdHandle@4
+	WriteConsole	equ	__imp__WriteConsoleA@20
+	__imp_WriteConsoleA equ	__imp__WriteConsoleA@20
+	GetModuleHandle	equ	__imp__GetModuleHandleA@4
+	__imp_GetModuleHandleA equ	__imp__GetModuleHandleA@4
+	lstrlen		equ	__imp__lstrlen@4
+	__imp_lstrlen equ	__imp__lstrlen@4
+	GetCommandLine	equ	__imp__GetCommandLineA@0
+	__imp_GetCommandLineA equ	__imp__GetCommandLineA@0
+	CloseHandle	equ	__imp__CloseHandle@4
+	__imp_CloseHandle equ	__imp__CloseHandle@4
+	GlobalAlloc	equ	__imp__GlobalAlloc@8
+	__imp_GlobalAlloc equ	__imp__GlobalAlloc@8
+	GlobalLock	equ	__imp__GlobalLock@4
+	__imp_GlobalLock equ	__imp__GlobalLock@4
+	GlobalFree	equ	__imp__GlobalFree@4
+	__imp_GlobalFree equ	__imp__GlobalFree@4
+	CreateFile	equ	__imp__CreateFileA@28
+	__imp_CreateFileA equ	__imp__CreateFileA@28
+	ReadFile	equ	__imp__ReadFile@20
+	__imp_ReadFile equ	__imp__ReadFile@20
+	WriteFile	equ	__imp__WriteFile@20
+	__imp_WriteFile equ	__imp__WriteFile@20
 endif

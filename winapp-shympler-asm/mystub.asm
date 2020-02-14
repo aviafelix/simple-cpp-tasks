@@ -5,7 +5,7 @@
 mesrusdos db 'Программа не может быть запущена в DOS; требуется WIN32', 0Dh, 0Ah
 	  db 'This program requres Win32.				Shyar STUB, 2003.', 0Dh, 0Ah, '$'
 	.code
-start:
+_start:
 	mov	ax, @data
 	mov	ds, ax
 
@@ -15,4 +15,4 @@ start:
 
 	mov	ax, 4C00h
 	int	21h
-end start
+end _start

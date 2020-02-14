@@ -1,15 +1,17 @@
 ;shympler
+	.686
+	.model	flat;, c;, stdcall
+
 include def32.inc
 include resource.inc
 include user32.inc
 include kernel32.inc
 include comdlg32.inc
-include rex.inc
 include shell32.inc
 include gdi32.inc
 include comctl32.inc
-	.386
-	.model	flat
+include rex.inc
+
 .const
 HLP db "ShymplerHelp.HTM",0
 	.data
@@ -107,7 +109,7 @@ cmdline_empty:
 	xor	ebx, ebx
 	push	ebx
 	call	GetModuleHandle
-	mov	[hinst], eax
+	mov	dword ptr [hinst], eax
 
 	; mov	esi, eax	; Помещаем идентификатор процесса в переменную
 	; mov	dword ptr wc.hInstance, eax
@@ -118,7 +120,7 @@ lpc:
 
 	push	ecx
 	push	ecx
-	push	[hinst]
+	push	dword ptr [hinst]
 	call	LoadIcon
 	pop	ecx
 
@@ -215,9 +217,9 @@ lpc:
 ; 	call	UpdateWindow
 
 ;Инициируем MIDI
-	push	[hinst]
+	push	dword ptr [hinst]
 
-	mov	esi, [hinst]
+	mov	esi, dword ptr [hinst]
 	call	Rex_MIDI_init
 
 	push	0

@@ -6,6 +6,8 @@ ifdef _TASM_
 	
 else
 		includelib	comdlg32.lib
-		extrn	_TextOutA@20:near
-	TextOut		equ	_TextOutA@20
+		extrn	__imp__TextOutA@20:dword
+
+	TextOut		equ	__imp__TextOutA@20
+    __imp_TextOutA equ __imp__TextOutA@20
 endif

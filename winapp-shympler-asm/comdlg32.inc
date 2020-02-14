@@ -7,8 +7,11 @@ ifdef _TASM_
 	GetSaveFileName	equ	GetSaveFileNameA
 else
 		includelib	comdlg32.lib
-		extrn	_GetOpenFileNameA@4:near
-		extrn	_GetSaveFileNameA@4:near
-GetOpenFileName	equ	_GetOpenFileNameA@4
-GetSaveFileName	equ	_GetSaveFileNameA@4
+		extrn	__imp__GetOpenFileNameA@4:dword
+		extrn	__imp__GetSaveFileNameA@4:dword
+
+    GetOpenFileName	equ	__imp__GetOpenFileNameA@4
+    GetSaveFileName	equ	__imp__GetSaveFileNameA@4
+    __imp_GetOpenFileNameA equ __imp__GetOpenFileNameA@4
+    __imp_GetSaveFileNameA equ __imp__GetSaveFileNameA@4
 endif

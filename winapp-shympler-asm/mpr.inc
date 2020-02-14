@@ -10,12 +10,13 @@ WNetOpenEnum	equ	WNetOpenEnumA
 WNetEnumResource equ	WNetEnumResourceA
 else
 	includelib	mpr.lib
-		extrn _WNetGetUserA@12:near
-		extrn _WNetOpenEnumA@20:near
-		extrn _WNetEnumResourceA@16:near
-		extrn _WNetCloseEnum@4:near
-WNetGetUser	equ _WNetGetUserA@12
-WNetOpenEnum	equ _WNetOpenEnumA@20
-WNetEnumResource equ _WNetEnumResourceA@16
-WNetCloseEnum	equ _WNetCloseEnum@4
+		extrn __imp__WNetGetUserA@12:dword
+		extrn __imp__WNetOpenEnumA@20:dword
+		extrn __imp__WNetEnumResourceA@16:dword
+		extrn __imp__WNetCloseEnum@4:dword
+
+	WNetGetUser	equ __imp__WNetGetUserA@12
+	WNetOpenEnum	equ __imp__WNetOpenEnumA@20
+	WNetEnumResource equ __imp__WNetEnumResourceA@16
+	WNetCloseEnum	equ __imp__WNetCloseEnum@4
 endif
