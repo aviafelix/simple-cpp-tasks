@@ -2,15 +2,15 @@
 	.686
 	.model	flat;, c;, stdcall
 
-include def32.inc
-include resource.inc
-include user32.inc
-include kernel32.inc
-include comdlg32.inc
-include shell32.inc
-include gdi32.inc
-include comctl32.inc
-include rex.inc
+include inc\def32.inc
+include inc\resource.inc
+include inc\user32.inc
+include inc\kernel32.inc
+include inc\comdlg32.inc
+include inc\shell32.inc
+include inc\gdi32.inc
+include inc\comctl32.inc
+include inc\rex.inc
 
 .const
 HLP db "ShymplerHelp.HTM",0

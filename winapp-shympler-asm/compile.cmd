@@ -1,4 +1,5 @@
 call "C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvars32.bat"
+:: rc shympler.rc
 :: dumpbin /EXPORTS rex.dll > rex.exports
 :: dumpbin /EXPORTS kernel32.dll > kernel32.exports
 :: Polib rex.dll /nound /MACHINE:X86 /DEF:rex.def /out:rex.lib
@@ -16,10 +17,10 @@ call "C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliar
 :: ml /c /Zd /omf mystub.asm
 :: link16.exe /knoweas mystub.obj /out mystub.bin
 ml /c /coff /Cp /Zd shympler.asm
-Link /MACHINE:X86 /SUBSYSTEM:WINDOWS /entry:start /nodefaultlib /LIBPATH:libs /STUB:mystub.bin /MANIFESTFILE:xpmanifest.xml /out:shympler.masm.exe shympler.obj rex.lib libcmt.lib user32.lib kernel32.lib comctl32.lib comdlg32.lib shell32.lib gdi32.lib shympler.m.res
-:: ml /c /Zd /coff shympler.asm /link /SUBSYSTEM:WINDOWS /entry:start /LIBPATH:libs /STUB:mystub.bin /MANIFESTFILE:xpmanifest.xml /ASSEMBLYRESOURCE:shympler.m.res /out:shympler.masm.exe
+Link /MACHINE:X86 /SUBSYSTEM:WINDOWS /entry:start /nodefaultlib /LIBPATH:libs /STUB:mystub.bin /MANIFESTFILE:xpmanifest.xml /out:shympler.masm.exe shympler.obj rex.lib libcmt.lib user32.lib kernel32.lib comctl32.lib comdlg32.lib shell32.lib gdi32.lib res\shympler.m.res
+:: ml /c /Zd /coff shympler.asm /link /SUBSYSTEM:WINDOWS /entry:start /LIBPATH:libs /STUB:mystub.bin /MANIFESTFILE:xpmanifest.xml /ASSEMBLYRESOURCE:res\shympler.m.res /out:shympler.masm.exe
 
 :: tasm32 /x /m /ml /l /D_TASM_ shympler.asm
-:: tlink32 /Tpe /aa /c shympler.obj,,,,stub.def,shympler.m.res
+:: tlink32 /Tpe /aa /c shympler.obj,,,,stub.def,res\shympler.m.res
 :: del shympler.masm.exe
 :: ren shympler.EXE shympler.masm.exe
