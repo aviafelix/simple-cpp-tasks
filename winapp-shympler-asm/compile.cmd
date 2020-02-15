@@ -2,8 +2,8 @@ call "C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliar
 :: rc shympler.rc
 :: dumpbin /EXPORTS rex.dll > rex.exports
 :: dumpbin /EXPORTS kernel32.dll > kernel32.exports
-:: Polib rex.dll /nound /MACHINE:X86 /DEF:rex.def /out:rex.lib
-:: Polib rex.dll /MACHINE:X86 /DEF:rex.def /out:rex.lib
+:: Polib dll\rex.dll /nound /MACHINE:X86 /DEF:rex.def /out:libs\rex.lib
+:: Polib dll\rex.dll /MACHINE:X86 /DEF:rex.def /out:libs\rex.lib
 :: Polib comctl32.dll /out:comctl32.lib
 :: Polib comdlg32.dll /out:comdlg32.lib
 :: Polib gdi32.dll /out:gdi32.lib

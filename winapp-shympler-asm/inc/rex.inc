@@ -71,7 +71,7 @@ else
 		extrn	__imp__Rex_IsPlaying@8		:	dword
 		extrn	__imp__Rex_MIDI_exit@0		:	dword
 		extrn	__imp__Rex_MIDI_init@0		:	dword
-		extrn	__imp__Rex_MIDI_load@0		:	dword
+		extrn	__imp__Rex_MIDI_load@4		:	dword
 		extrn	__imp__Rex_MIDI_play@0		:	dword
 		extrn	__imp__Rex_MIDI_playlooped@4	:	dword
 		extrn	__imp__Rex_MIDI_stop@0		:	dword
@@ -113,7 +113,7 @@ else
 		Rex_IsPlaying 	equ	__imp__Rex_IsPlaying@8
 		Rex_MIDI_exit 	equ	__imp__Rex_MIDI_exit@0
 		Rex_MIDI_init 	equ	__imp__Rex_MIDI_init@0
-		Rex_MIDI_load 	equ	__imp__Rex_MIDI_load@0
+		Rex_MIDI_load 	equ	__imp__Rex_MIDI_load@4
 		Rex_MIDI_play 	equ	__imp__Rex_MIDI_play@0
 		Rex_MIDI_playlooped 	equ	__imp__Rex_MIDI_playlooped@4
 		Rex_MIDI_stop 	equ	__imp__Rex_MIDI_stop@0

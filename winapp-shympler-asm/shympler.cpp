@@ -1,10 +1,10 @@
 #pragma comment(lib, "user32.lib")
 #pragma comment(lib, "kernel32.lib")
 #pragma comment(lib, "comdlg32.lib")
-#pragma comment(lib, "rex.lib")
 #pragma comment(lib, "shell32.lib")
 #pragma comment(lib, "gdi32.lib")
 #pragma comment(lib, "comctl32.lib")
+#pragma comment(lib, "rex.lib")
 
 // #ifndef UNICODE
 // #define UNICODE
@@ -14,7 +14,9 @@
 #include <commctrl.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <shellapi.h>
 #include <string.h>
+#include "rex.h"
 
 const static char HLP[] = "ShymplerHelp.HTM";
 const static char well_msg[] = "Программа стартовала!\r\nСлушайте =  > ";
@@ -72,16 +74,58 @@ static BYTE showplaylist = 0,
 
 static INITCOMMONCONTROLSEX InitCtrlEx = { sizeof(INITCOMMONCONTROLSEX), ICC_STANDARD_CLASSES };
 
+static HINSTANCE hInst;
 static DWORD hplaylistwnd,
       haddfilewnd,
       hadddirwnd,
       hloading,
-      hinst,
       hmenu,
       hdialwnd;
 
-static DWORD hicn[9] = { };
+static HICON hIcn[9] = { };
 static RECT rectangle = { };
+
+INT_PTR
+CALLBACK
+loadingProc(HWND hldWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    switch (uMsg)
+    {
+        case WM_INITDIALOG:
+            break;
+
+        case WM_CLOSE:
+            DestroyWindow(hldWnd);
+            break;
+
+        // default:
+        //     return ::DefWindowProc(hMainWnd, uMsg, wParam, lParam);
+    }
+
+    return 0;
+}
+
+INT_PTR
+CALLBACK
+mainDialProc(HWND hdpWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    switch (uMsg)
+    {
+        case WM_INITDIALOG:
+            SendMessage(hdpWnd, WM_SETICON, NULL, (LPARAM)hIcn[0]);
+            break;
+
+        case WM_CLOSE:
+            EndDialog(hdpWnd, NULL);
+            break;
+
+        // default:
+        //     return ::DefWindowProc(hMainWnd, uMsg, wParam, lParam);
+    }
+
+    return 0;
+}
+
 
 int
 WINAPI
@@ -93,8 +137,40 @@ WinMain(
     LPSTR lpCmdLine,
     int nCmdShow)
 {
-    MessageBox(NULL, musname, xyz_title, MB_ICONINFORMATION);
-    // MessageBox(NULL /*hinst*/, (LPCSTR)xyz._msg, xyz_title, MB_ICONEXCLAMATION | MB_OK);
+    LPWSTR pCmdLine;
+    int nArgs;
+    LPWSTR* pCmdLineArgs;
+
     IsDebuggerPresent();
     InitCommonControlsEx(&InitCtrlEx);
+
+    pCmdLine = GetCommandLineW();
+    pCmdLineArgs = CommandLineToArgvW(pCmdLine, &nArgs);
+    if (nArgs > 1) {
+        MessageBox(NULL, "cmd line is NOT empty", "[info]", MB_ICONINFORMATION);
+    } else {
+        // command line is empty
+        MessageBox(NULL, "cmd line is empty", "[info]", MB_ICONINFORMATION);
+    }
+
+    LocalFree(pCmdLineArgs);
+
+    MessageBox(NULL, musname, xyz_title, MB_ICONINFORMATION);
+    // MessageBox(NULL /*hInst*/, (LPCSTR)xyz._msg, xyz_title, MB_ICONEXCLAMATION | MB_OK);
+
+    hInst = GetModuleHandle(0);
+    for (size_t i = 0; i < 9; ++i) {
+        hIcn[i] = LoadIcon(hInst, MAKEINTRESOURCE(i));
+    }
+
+    Rex_MIDI_init();
+    HWND hLoadingWnd = CreateDialogParam(hInst, dloadingname, NULL, loadingProc, NULL);
+    Rex_MIDI_load(musname);
+    DestroyWindow(hLoadingWnd);
+
+    INT_PTR hMainDialPtr = DialogBoxParam(hInst, maindialname, NULL, mainDialProc, NULL);
+
+    Rex_MIDI_stop();
+    Rex_MIDI_unload();
+    Rex_MIDI_exit();
 }

@@ -55,7 +55,7 @@ _Rex_MIDI_exit@0 = Rex_MIDI_exit
 Rex_MIDI_init
 _Rex_MIDI_init@0 = Rex_MIDI_init
 Rex_MIDI_load
-_Rex_MIDI_load@0 = Rex_MIDI_load
+_Rex_MIDI_load@4 = Rex_MIDI_load
 Rex_MIDI_play
 _Rex_MIDI_play@0 = Rex_MIDI_play
 Rex_MIDI_playlooped
